@@ -7,8 +7,9 @@ import {
 } from "./client/components/globals/context/languageContext/LanguageContext";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { StartPage } from "./client/components/pages/StartPage";
+import { StartPage } from "./client/components/pages/startPage/StartPage";
 import { LoginPage } from "./client/components/pages/LoginPage";
+import { ViewSingleDog } from "./client/components/pages/startPage/viewSingleDog";
 
 declare global {
   namespace ReactNavigation {
@@ -16,9 +17,12 @@ declare global {
   }
 }
 
-type RootStackParamList = {
+export type RootStackParamList = {
   Start: { userId: string };
   Login: undefined;
+  SingleDog: {
+    id: string;
+  };
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -36,6 +40,11 @@ export default function App() {
             options={{ headerShown: false }}
             name="Start"
             component={StartPage}
+          />
+          <Stack.Screen
+            options={{ headerShown: false }}
+            name="SingleDog"
+            component={ViewSingleDog}
           />
         </Stack.Navigator>
       </NavigationContainer>

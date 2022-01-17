@@ -14,7 +14,7 @@ import {
 } from "@firebase/auth";
 import { NavigationType } from "react-router";
 import { useNavigation } from "@react-navigation/core";
-import { StartPage } from "./StartPage";
+import { StartPage } from "./startPage/StartPage";
 
 interface IProps {
   userCredentials: string;
@@ -34,7 +34,7 @@ export const LoginPage = () => {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
-        navigation.navigate("Start");
+        navigation.navigate("Start", { userId: user.uid });
       }
     });
 
