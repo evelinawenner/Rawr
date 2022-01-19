@@ -23,6 +23,9 @@ export type RootStackParamList = {
   SingleDog: {
     id: string;
   };
+  SingleDate: {
+    id: string;
+  };
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();

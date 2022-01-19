@@ -3,6 +3,9 @@ import ENjson from "./EN.json";
 
 export interface ILanguageVariables {
   SiteTitle: string;
+  YourDogs: string;
+  AddDog: string;
+  AddDate: string;
 }
 
 export const SE: ILanguageVariables = SEjson;
