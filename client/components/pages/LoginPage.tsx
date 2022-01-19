@@ -15,6 +15,7 @@ import {
 import { NavigationType } from "react-router";
 import { useNavigation } from "@react-navigation/core";
 import { StartPage } from "./startPage/StartPage";
+import { useFonts, Dongle_700Bold } from "@expo-google-fonts/dongle";
 
 interface IProps {
   userCredentials: string;
@@ -31,6 +32,8 @@ export const LoginPage = () => {
 
   const navigation = useNavigation();
 
+  let [fontsLoaded] = useFonts({ Dongle_700Bold });
+
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
@@ -42,13 +45,6 @@ export const LoginPage = () => {
   }, []);
 
   const handleSignup = async () => {
-    //   auth
-    //   .createUserWithEmailAndPassword(email, password)
-    //   .then(hej => {
-    //       const user = userCredentials.user;
-    //       console.log(user.email);
-
-    //   }) .catch(error => alert(error.message))
     const data = await createUserWithEmailAndPassword(auth, email, password);
     console.log(data.user.email);
     const user = data.user;
@@ -65,6 +61,7 @@ export const LoginPage = () => {
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior="padding">
+      <Text style={styles.heading}>Rawr</Text>
       <View style={styles.inputContainer}>
         <TextInput
           placeholder="Email"
@@ -103,6 +100,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+  },
+
+  heading: {
+    fontFamily: "Dongle_700Bold",
+    fontSize: 100,
+    color: "#ef9458",
   },
 
   inputContainer: {

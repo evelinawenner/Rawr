@@ -15,6 +15,13 @@ import firebase from "firebase/compat/app";
 import "firebase/compat/firestore";
 import { LanguageContext } from "../../globals/context/languageContext/LanguageContext";
 import { ViewDogs } from "./viewDogs";
+import {
+  useFonts,
+  Roboto_400Regular,
+  Roboto_400Regular_Italic,
+} from "@expo-google-fonts/roboto";
+import { Dongle_700Bold } from "@expo-google-fonts/dongle";
+import AppLoading from "expo-app-loading";
 
 interface IDog {
   dogName: string;
@@ -29,6 +36,8 @@ export const StartPage = () => {
   const [dogName, setDogName] = useState("");
   const [dogBreed, setDogBreed] = useState("");
   const [dogWeight, setDogWeight] = useState("");
+
+  let [fontsLoaded] = useFonts({ Roboto_400Regular, Dongle_700Bold });
 
   const navigation = useNavigation();
   const currUser = auth.currentUser;
@@ -50,82 +59,96 @@ export const StartPage = () => {
     console.log("dog", dogName, "added");
   };
 
-  // useEffect(() => {
-  //   printDogs();
-  // }, [setDog]);
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  } else {
+    return (
+      <>
+        <KeyboardAvoidingView style={styles.topContainer}>
+          <Text style={styles.rawr}>{context.language.language.SiteTitle}</Text>
 
-  // const printDogs = () => {
-  //   axios
-  //     .get<IDog[]>("http://localhost:1337/api/dogs")
-  //     .then((res) => {
-  //       setDog(res.data);
-  //       console.log("hej" + res.data);
-  //     })
-  //     .catch((err) => console.log(err));
-  // };
-
-  return (
-    <SafeAreaView>
-      <KeyboardAvoidingView style={styles.container}>
-        <Text>Rawr</Text>
-        <Text>Email: {auth.currentUser?.email}</Text>
-
-        <TouchableOpacity style={styles.button} onPress={handleSignOut}>
-          <Text style={styles.buttonText}>Sign out</Text>
-        </TouchableOpacity>
-      </KeyboardAvoidingView>
-
-      <KeyboardAvoidingView style={styles.inputContainer}>
-        <TextInput
-          placeholder="name"
-          value={dogName}
-          onChangeText={(text) => setDogName(text)}
-          style={styles.input}
-        />
-        <TextInput
-          placeholder="breed"
-          value={dogBreed}
-          onChangeText={(text) => setDogBreed(text)}
-          style={styles.input}
-        />
-        <TextInput
-          placeholder="weight"
-          value={dogWeight}
-          onChangeText={(text) => setDogWeight(text)}
-          style={styles.input}
-        />
-      </KeyboardAvoidingView>
-      <KeyboardAvoidingView style={styles.addButtonContainer}>
-        <TouchableOpacity style={styles.addButton} onPress={addDog}>
-          <Text style={styles.buttonText}>Add dog</Text>
-        </TouchableOpacity>
-      </KeyboardAvoidingView>
-      <ViewDogs />
-    </SafeAreaView>
-  );
+          <TouchableOpacity style={styles.button} onPress={handleSignOut}>
+            <Text style={styles.buttonText}>Sign out</Text>
+          </TouchableOpacity>
+        </KeyboardAvoidingView>
+        <View>
+          <ViewDogs />
+        </View>
+        <SafeAreaView style={styles.container}>
+          <Text style={styles.addHeading}>
+            {context.language.language.AddDog}
+          </Text>
+          <KeyboardAvoidingView style={styles.inputContainer}>
+            <TextInput
+              placeholder="name"
+              value={dogName}
+              onChangeText={(text) => setDogName(text)}
+              style={styles.input}
+            />
+            <TextInput
+              placeholder="breed"
+              value={dogBreed}
+              onChangeText={(text) => setDogBreed(text)}
+              style={styles.input}
+            />
+            <TextInput
+              placeholder="weight"
+              value={dogWeight}
+              onChangeText={(text) => setDogWeight(text)}
+              style={styles.input}
+            />
+          </KeyboardAvoidingView>
+          <KeyboardAvoidingView style={styles.addButtonContainer}>
+            <TouchableOpacity style={styles.addButton} onPress={addDog}>
+              <Text style={styles.buttonText}>Add dog</Text>
+            </TouchableOpacity>
+          </KeyboardAvoidingView>
+        </SafeAreaView>
+      </>
+    );
+  }
 };
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+    alignItems: "center",
+    backgroundColor: "rgba(239,	148,	88, 0.5)",
+    marginTop: 20,
+  },
+
+  rawr: {
+    fontFamily: "Dongle_700Bold",
+    fontSize: 40,
+    color: "#ef9458",
+  },
+  topContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginVertical: 10,
+    marginVertical: 5,
     marginHorizontal: 10,
+    alignItems: "baseline",
   },
 
   button: {
     backgroundColor: "#0782F9",
-    width: "25",
-    paddingVertical: 5,
-    paddingHorizontal: 10,
+    width: 70,
+    height: 30,
     borderRadius: 15,
     alignItems: "center",
+    justifyContent: "center",
   },
 
   buttonText: {
     color: "white",
     fontWeight: "700",
     fontSize: 13,
+  },
+
+  addHeading: {
+    fontFamily: "dongle_700Bold",
+    fontSize: 50,
+    marginTop: 10,
   },
 
   inputContainer: {
