@@ -24,6 +24,9 @@ import {
 import { auth, db } from "../../../../firebase";
 import { LanguageContext } from "../../globals/context/languageContext/LanguageContext";
 import styled from "styled-components";
+import { BarfCalculator } from "./barfCalculator";
+import { useFonts, Lobster_400Regular } from "@expo-google-fonts/lobster";
+import { Righteous_400Regular } from "@expo-google-fonts/dev";
 
 type Props = NativeStackScreenProps<RootStackParamList, "SingleDog">;
 
@@ -33,12 +36,13 @@ export const ViewSingleDog: React.FC<Props> = ({ route }) => {
   const navigation = useNavigation();
   const [dogName, setDogName] = useState("");
   const [dogBreed, setDogBreed] = useState("");
-  const [dogWeight, setDogWeight] = useState("");
+  const [dogWeight, setDogWeight] = useState(0);
   const [theDate, setTheDate] = useState("");
   const [dates, setDates] = useState<any[]>([]);
   const [showUpdate, setShowUpdate] = useState(false);
   const [editDogBreed, setEditDogBreed] = useState("");
   const [editDogWeight, setEditDogWeight] = useState("");
+  const [parsedWeight, setParsedWeight] = useState(0);
 
   const { id } = route.params;
 
@@ -51,7 +55,7 @@ export const ViewSingleDog: React.FC<Props> = ({ route }) => {
       console.log("Document data:", docSnap.data());
       setDogName(docSnap.data().name);
       setDogBreed(docSnap.data().breed);
-      setDogWeight(docSnap.data().weight);
+      setDogWeight(parseInt(docSnap.data().weight));
     } else {
       // doc.data() will be undefined in this case
       console.log("No such document!");
@@ -100,35 +104,41 @@ export const ViewSingleDog: React.FC<Props> = ({ route }) => {
   };
   const handleCloseUpdate = () => {
     setDogBreed(editDogBreed);
-    setDogWeight(editDogWeight);
+    setDogWeight(parseInt(editDogWeight));
     updateDog();
     setShowUpdate(false);
   };
+
+  // useEffect(() => {
+  //   let parse = Number.parseInt(dogWeight);
+  //   setParsedWeight(parse);
+  //   console.log("bro", parsedWeight);
+  // }, []);
 
   const ShowUpdate = () => {
     if (showUpdate === false) {
       return (
         <TouchableOpacity onPress={handleShowUpdate}>
-          <Text>Ändra</Text>
+          <Text>{context.language.language.change}</Text>
         </TouchableOpacity>
       );
     } else {
       return (
         <KeyboardAvoidingView>
           <TextInput
-            placeholder="breed"
+            placeholder={context.language.language.breed}
             value={editDogBreed}
             onChangeText={(text) => setEditDogBreed(text)}
             style={styles.input}
           />
           <TextInput
-            placeholder="weight"
+            placeholder={context.language.language.weight}
             value={editDogWeight}
             onChangeText={(text) => setEditDogWeight(text)}
             style={styles.input}
           />
           <TouchableOpacity onPress={handleCloseUpdate}>
-            <Text>Spara</Text>
+            <Text>{context.language.language.save}</Text>
           </TouchableOpacity>
         </KeyboardAvoidingView>
       );
@@ -140,13 +150,13 @@ export const ViewSingleDog: React.FC<Props> = ({ route }) => {
       <View style={styles.headingContainer}>
         <Text style={styles.heading}>{dogName}</Text>
         <Text>
-          breed: {dogBreed}, weight: {dogWeight}g
+          {dogBreed}, {dogWeight}g
         </Text>
         <ShowUpdate />
       </View>
 
       <View style={styles.dateContainer}>
-        <Text style={styles.dateHeading}>Datum</Text>
+        <Text style={styles.dateHeading}>{context.language.language.date}</Text>
         <StyledUl>
           {dates.map((date) => (
             <li key={date.id}>
@@ -180,10 +190,13 @@ export const ViewSingleDog: React.FC<Props> = ({ route }) => {
           </TouchableOpacity>
         </KeyboardAvoidingView>
       </View>
+      <BarfCalculator weight={dogWeight} />
 
       <View style={styles.deleteButtonContainer}>
         <TouchableOpacity style={styles.deleteButton} onPress={deleteDog}>
-          <Text style={styles.buttonText}>Ta bort hund</Text>
+          <Text style={styles.buttonText}>
+            {context.language.language.delete_dog}
+          </Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -204,7 +217,7 @@ const styles = StyleSheet.create({
 
   heading: {
     fontSize: 50,
-    fontFamily: "Roboto_400Regular",
+    fontFamily: "Righteous_400Regular",
   },
 
   dateContainer: {

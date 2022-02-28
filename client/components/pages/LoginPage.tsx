@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import {
   KeyboardAvoidingView,
   Text,
@@ -15,6 +15,8 @@ import {
 import { NavigationType } from "react-router";
 import { useNavigation } from "@react-navigation/core";
 import { StartPage } from "./startPage/StartPage";
+import { LangSwitch } from "../globals/langSwitch";
+import { LanguageContext } from "../globals/context/languageContext/LanguageContext";
 
 interface IProps {
   userCredentials: string;
@@ -30,6 +32,7 @@ export const LoginPage = () => {
   const [password, setPassword] = useState("");
 
   const navigation = useNavigation();
+  const context = useContext(LanguageContext);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -58,16 +61,17 @@ export const LoginPage = () => {
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior="padding">
-      <Text style={styles.heading}>Rawr</Text>
+      <LangSwitch />
+      <Text style={styles.heading}>{context.language.language.SiteTitle}</Text>
       <View style={styles.inputContainer}>
         <TextInput
-          placeholder="Email"
+          placeholder="email"
           value={email}
           onChangeText={(text) => setEmail(text)}
           style={styles.input}
         />
         <TextInput
-          placeholder="Password"
+          placeholder={context.language.language.login_password}
           value={password}
           onChangeText={(text) => setPassword(text)}
           style={styles.input}
@@ -77,14 +81,16 @@ export const LoginPage = () => {
 
       <View style={styles.buttonContainer}>
         <TouchableOpacity onPress={handleLogin} style={styles.button}>
-          <Text style={styles.buttonText}>Login</Text>
+          <Text style={styles.buttonText}>
+            {context.language.language.login_login}
+          </Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => handleSignup()}
           style={[styles.button, styles.buttonOutline]}
         >
           <Text style={[styles.buttonText, styles.buttonOutlineText]}>
-            Register
+            {context.language.language.login_reg}
           </Text>
         </TouchableOpacity>
       </View>
@@ -101,6 +107,7 @@ const styles = StyleSheet.create({
 
   heading: {
     fontSize: 100,
+    fontFamily: "Righteous_400Regular",
     color: "#ef9458",
   },
 

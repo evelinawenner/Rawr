@@ -20,6 +20,7 @@ import {
   Roboto_400Regular,
   Roboto_400Regular_Italic,
 } from "@expo-google-fonts/roboto";
+import { Righteous_400Regular } from "@expo-google-fonts/righteous";
 import AppLoading from "expo-app-loading";
 import { LangSwitch } from "../../globals/langSwitch";
 
@@ -37,7 +38,7 @@ export const StartPage = () => {
   const [dogBreed, setDogBreed] = useState("");
   const [dogWeight, setDogWeight] = useState("");
 
-  let [fontsLoaded] = useFonts({ Roboto_400Regular });
+  let [fontsLoaded] = useFonts({ Roboto_400Regular, Righteous_400Regular });
 
   const navigation = useNavigation();
   const currUser = auth.currentUser;
@@ -70,7 +71,9 @@ export const StartPage = () => {
           <LangSwitch />
 
           <TouchableOpacity style={styles.button} onPress={handleSignOut}>
-            <Text style={styles.buttonText}>Sign out</Text>
+            <Text style={styles.buttonText}>
+              {context.language.language.login_logout}
+            </Text>
           </TouchableOpacity>
         </KeyboardAvoidingView>
         <View>
@@ -82,19 +85,20 @@ export const StartPage = () => {
           </Text>
           <KeyboardAvoidingView style={styles.inputContainer}>
             <TextInput
-              placeholder="name"
+              placeholder={context.language.language.name}
               value={dogName}
               onChangeText={(text) => setDogName(text)}
               style={styles.input}
             />
             <TextInput
-              placeholder="breed"
+              placeholder={context.language.language.breed}
               value={dogBreed}
               onChangeText={(text) => setDogBreed(text)}
               style={styles.input}
             />
             <TextInput
-              placeholder="weight"
+              placeholder={context.language.language.weight}
+              keyboardType={"numeric"}
               value={dogWeight}
               onChangeText={(text) => setDogWeight(text)}
               style={styles.input}
@@ -102,7 +106,9 @@ export const StartPage = () => {
           </KeyboardAvoidingView>
           <KeyboardAvoidingView style={styles.addButtonContainer}>
             <TouchableOpacity style={styles.addButton} onPress={addDog}>
-              <Text style={styles.buttonText}>Add dog</Text>
+              <Text style={styles.buttonText}>
+                {context.language.language.AddDog}
+              </Text>
             </TouchableOpacity>
           </KeyboardAvoidingView>
         </SafeAreaView>
@@ -120,7 +126,7 @@ const styles = StyleSheet.create({
   },
 
   rawr: {
-    fontFamily: "Roboto_400Regular",
+    fontFamily: "Righteous_400Regular",
     fontSize: 40,
     color: "#ef9458",
   },
@@ -149,8 +155,8 @@ const styles = StyleSheet.create({
 
   addHeading: {
     fontFamily: "Roboto_400Regular",
-    fontSize: 50,
-    marginTop: 10,
+    fontSize: 30,
+    marginVertical: 10,
   },
 
   inputContainer: {

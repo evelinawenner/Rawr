@@ -69,8 +69,9 @@ const styles = StyleSheet.create({
   },
 
   heading: {
-    fontSize: 50,
+    fontSize: 30,
     fontFamily: "Roboto_400Regular",
+    marginVertical: 10,
   },
 
   listItems: {
