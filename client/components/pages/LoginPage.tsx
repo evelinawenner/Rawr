@@ -15,7 +15,6 @@ import {
 import { NavigationType } from "react-router";
 import { useNavigation } from "@react-navigation/core";
 import { StartPage } from "./startPage/StartPage";
-import { useFonts, Dongle_700Bold } from "@expo-google-fonts/dongle";
 
 interface IProps {
   userCredentials: string;
@@ -31,8 +30,6 @@ export const LoginPage = () => {
   const [password, setPassword] = useState("");
 
   const navigation = useNavigation();
-
-  let [fontsLoaded] = useFonts({ Dongle_700Bold });
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -103,7 +100,6 @@ const styles = StyleSheet.create({
   },
 
   heading: {
-    fontFamily: "Dongle_700Bold",
     fontSize: 100,
     color: "#ef9458",
   },

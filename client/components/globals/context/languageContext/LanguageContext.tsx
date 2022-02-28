@@ -1,5 +1,6 @@
 import { SE, EN } from "./languages/LanguageInterface";
 import React, { Children, createContext, ReactNode, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const languages = {
   SE: {
@@ -23,19 +24,26 @@ interface Iprops {
 
 export const LanguageContextProvider = (props: Iprops) => {
   let defaultLanguage = languages.SE;
-  let getDefault = localStorage.getItem("defaultLanguage");
 
-  if (getDefault === "EN") {
-    defaultLanguage = languages.EN;
-  }
-  const setLang = (langCode: string) => {
+  const getData = async () => {
+    try {
+      const getDefault = await AsyncStorage.getItem("defaultLanguage");
+      if (getDefault === "EN") {
+        defaultLanguage = languages.EN;
+      }
+    } catch (e) {
+      console.log("shit");
+    }
+  };
+
+  const setLang = async (langCode: string) => {
     let chosen = languages.SE;
 
     if (langCode === "EN") {
-      localStorage.setItem("defaultLanguage", "EN");
+      await AsyncStorage.setItem("defaultLanguage", "EN");
       chosen = languages.EN;
     } else {
-      localStorage.setItem("defaultLanguage", "SE");
+      await AsyncStorage.setItem("defaultLanguage", "SE");
       chosen = languages.SE;
     }
     setState({ ...state, language: chosen });

@@ -18,7 +18,6 @@ import {
   Roboto_400Regular,
   Roboto_400Regular_Italic,
 } from "@expo-google-fonts/roboto";
-import { Dongle_700Bold } from "@expo-google-fonts/dongle";
 
 interface IDogs {}
 
@@ -71,7 +70,7 @@ const styles = StyleSheet.create({
 
   heading: {
     fontSize: 50,
-    fontFamily: "Dongle_700Bold",
+    fontFamily: "Roboto_400Regular",
   },
 
   listItems: {

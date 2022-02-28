@@ -20,8 +20,8 @@ import {
   Roboto_400Regular,
   Roboto_400Regular_Italic,
 } from "@expo-google-fonts/roboto";
-import { Dongle_700Bold } from "@expo-google-fonts/dongle";
 import AppLoading from "expo-app-loading";
+import { LangSwitch } from "../../globals/langSwitch";
 
 interface IDog {
   dogName: string;
@@ -37,7 +37,7 @@ export const StartPage = () => {
   const [dogBreed, setDogBreed] = useState("");
   const [dogWeight, setDogWeight] = useState("");
 
-  let [fontsLoaded] = useFonts({ Roboto_400Regular, Dongle_700Bold });
+  let [fontsLoaded] = useFonts({ Roboto_400Regular });
 
   const navigation = useNavigation();
   const currUser = auth.currentUser;
@@ -66,6 +66,8 @@ export const StartPage = () => {
       <>
         <KeyboardAvoidingView style={styles.topContainer}>
           <Text style={styles.rawr}>{context.language.language.SiteTitle}</Text>
+
+          <LangSwitch />
 
           <TouchableOpacity style={styles.button} onPress={handleSignOut}>
             <Text style={styles.buttonText}>Sign out</Text>
@@ -118,7 +120,7 @@ const styles = StyleSheet.create({
   },
 
   rawr: {
-    fontFamily: "Dongle_700Bold",
+    fontFamily: "Roboto_400Regular",
     fontSize: 40,
     color: "#ef9458",
   },
@@ -146,7 +148,7 @@ const styles = StyleSheet.create({
   },
 
   addHeading: {
-    fontFamily: "dongle_700Bold",
+    fontFamily: "Roboto_400Regular",
     fontSize: 50,
     marginTop: 10,
   },

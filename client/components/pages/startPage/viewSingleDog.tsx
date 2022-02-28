@@ -204,7 +204,7 @@ const styles = StyleSheet.create({
 
   heading: {
     fontSize: 50,
-    fontFamily: "Dongle_700Bold",
+    fontFamily: "Roboto_400Regular",
   },
 
   dateContainer: {
